@@ -28,7 +28,6 @@ def validate_password(password):
 def signup():
     data = request.get_json()
     
-    # Validation
     if not data or not data.get('username') or not data.get('email') or not data.get('password'):
         return jsonify({'error': 'Username, email, and password are required'}), 400
     
@@ -46,18 +45,15 @@ def signup():
     if not valid:
         return jsonify({'error': msg}), 400
     
-    # Check existing user
     if User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already taken'}), 409
     
     if User.query.filter_by(email=email).first():
         return jsonify({'error': 'Email already registered'}), 409
     
-    # Create user
     user = User(username=username, email=email)
     user.set_password(password)
     
-    # Create statistics
     stats = UserStatistics(user=user)
     
     db.session.add(user)
