@@ -12,7 +12,6 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True)
     
-    # Relationships
     statistics = db.relationship('UserStatistics', backref='user', uselist=False)
     
     def set_password(self, password):

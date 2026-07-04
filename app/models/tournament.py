@@ -10,7 +10,6 @@ class Tournament(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     completed_at = db.Column(db.DateTime)
     
-    # Relationships
     players = db.relationship('TournamentPlayer', backref='tournament')
     matches = db.relationship('Match', backref='tournament')
     
@@ -32,5 +31,4 @@ class TournamentPlayer(db.Model):
     seed = db.Column(db.Integer)
     eliminated = db.Column(db.Boolean, default=False)
     
-    # Relationships
     user = db.relationship('User')

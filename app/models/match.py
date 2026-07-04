@@ -14,7 +14,6 @@ class Match(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     completed_at = db.Column(db.DateTime)
     
-    # Relationships
     player1 = db.relationship('User', foreign_keys=[player1_id])
     player2 = db.relationship('User', foreign_keys=[player2_id])
     winner = db.relationship('User', foreign_keys=[winner_id])
