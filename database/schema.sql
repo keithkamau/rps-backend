@@ -1,9 +1,5 @@
--- Run this in Supabase SQL editor
+-- Run this in your Supabase SQL editor
 
--- Enable UUID extension if needed
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- Users table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -13,7 +9,6 @@ CREATE TABLE users (
     is_active BOOLEAN DEFAULT true
 );
 
--- User statistics
 CREATE TABLE user_statistics (
     id SERIAL PRIMARY KEY,
     user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
@@ -28,7 +23,6 @@ CREATE TABLE user_statistics (
     best_streak INTEGER DEFAULT 0
 );
 
--- Tournaments
 CREATE TABLE tournaments (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -37,7 +31,6 @@ CREATE TABLE tournaments (
     completed_at TIMESTAMP WITH TIME ZONE
 );
 
--- Tournament players
 CREATE TABLE tournament_players (
     id SERIAL PRIMARY KEY,
     tournament_id INTEGER REFERENCES tournaments(id) ON DELETE CASCADE,
@@ -47,7 +40,6 @@ CREATE TABLE tournament_players (
     UNIQUE(tournament_id, user_id)
 );
 
--- Matches
 CREATE TABLE matches (
     id SERIAL PRIMARY KEY,
     tournament_id INTEGER REFERENCES tournaments(id) ON DELETE CASCADE,
@@ -60,7 +52,6 @@ CREATE TABLE matches (
     completed_at TIMESTAMP WITH TIME ZONE
 );
 
--- Rounds
 CREATE TABLE rounds (
     id SERIAL PRIMARY KEY,
     match_id INTEGER REFERENCES matches(id) ON DELETE CASCADE,
@@ -70,10 +61,8 @@ CREATE TABLE rounds (
     winner_id INTEGER REFERENCES users(id)
 );
 
--- Indexes for performance
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_tournaments_status ON tournaments(status);
 CREATE INDEX idx_matches_tournament ON matches(tournament_id);
 CREATE INDEX idx_matches_status ON matches(status);
-CREATE INDEX idx_user_statistics_user ON user_statistics(user_id);
