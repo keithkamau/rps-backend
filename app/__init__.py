@@ -16,22 +16,22 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    # Initialize extensions
     db.init_app(app)
     socketio.init_app(app, message_queue=None)
     migrate.init_app(app, db)
     limiter.init_app(app)
     CORS(app, origins=[app.config['FRONTEND_URL']])
     
-    # Register blueprints
     from .routes.auth import auth_bp
     from .routes.game import game_bp
     from .routes.tournament import tournament_bp
     from .routes.admin import admin_bp
+    from .routes.spectator import spectator_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(game_bp, url_prefix='/api/game')
     app.register_blueprint(tournament_bp, url_prefix='/api/tournament')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
+    app.register_blueprint(spectator_bp, url_prefix='/api/spectator')
     
     return app
