@@ -12,9 +12,9 @@ socketio = SocketIO(cors_allowed_origins="*")
 migrate = Migrate()
 limiter = Limiter(key_func=get_remote_address)
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     
     db.init_app(app)
     socketio.init_app(app, message_queue=None)

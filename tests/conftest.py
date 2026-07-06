@@ -1,15 +1,10 @@
 import pytest
 from app import create_app, db
+from app.config import TestConfig
 
 @pytest.fixture
 def app():
-    app = create_app()
-    app.config.update({
-        'TESTING': True,
-        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
-        'SECRET_KEY': 'test-secret',
-        'JWT_SECRET_KEY': 'test-jwt-secret',
-    })
+    app = create_app(TestConfig)
     
     with app.app_context():
         db.create_all()
@@ -25,7 +20,6 @@ def client(app):
 
 @pytest.fixture
 def auth_headers(client):
-    # Create user and get token
     client.post('/api/auth/signup', json={
         'username': 'testuser',
         'email': 'test@test.com',
