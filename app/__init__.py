@@ -20,7 +20,7 @@ def create_app(config_class=Config):
     socketio.init_app(app, message_queue=None)
     migrate.init_app(app, db)
     limiter.init_app(app)
-    CORS(app, origins=[app.config['FRONTEND_URL']])
+    CORS(app, origins="*")
     
     from .routes.auth import auth_bp
     from .routes.game import game_bp
