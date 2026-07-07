@@ -6,9 +6,19 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=sqlite:///app.db
+      - DATABASE_URL=sqlite:////app/data/app.db
       - SECRET_KEY=dev-secret-key
       - JWT_SECRET_KEY=dev-jwt-secret
       - FRONTEND_URL=http://localhost:3000
     volumes:
-      - ./app.db:/app/app.db
+      - ./backend-data:/app/data
+  frontend:
+    build:
+      context: ./frontend
+    container_name: rps-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:5000
+    volumes:
+      - ./frontend-data:/app/data
